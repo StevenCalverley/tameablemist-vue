@@ -1,20 +1,22 @@
 <template>
   <div
-    class="inline-flex"
+    class="w-full inline-flex"
     :class="[{ 'flex-col': !inline }, { 'items-center': inline }]"
   >
     <label
       v-if="label"
       :for="id"
-      class="block text-sm leading-5 font-medium text-gray-700"
+      class="flex-shrink-0 block text-sm leading-5 font-medium text-gray-700"
       >{{ label }}</label
     >
-    <div class="mt-1 relative rounded-md shadow-sm">
+    <div
+      class="mt-1 flex-grow relative rounded-md shadow-sm"
+      :class="{ 'ml-4': label && inline }"
+    >
       <input
         :id="id"
         :type="type"
-        class="form-input"
-        :class="{ 'ml-4': label && inline }"
+        class="form-input w-full sm:text-sm sm:leading-5"
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
         v-bind="$attrs"
