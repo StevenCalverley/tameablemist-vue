@@ -43,7 +43,7 @@
     <p class="mt-4">Selected Value: {{ option }}</p>
   </div>
   <div class="mt-8 w-1/2">
-    <BaseSelectMenu :items="options" v-model="selected" />
+    <BaseSelectMenu :items="options" v-model="selected" label="Test Label" />
     <p class="mt-4">Selected Value: {{ selected }}</p>
   </div>
 </template>
