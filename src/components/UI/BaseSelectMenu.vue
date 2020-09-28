@@ -52,18 +52,36 @@
           <ul
             tabindex="-1"
             role="listbox"
+            ref="options"
             :aria-labelledby="labelID"
             aria-activedescendant="listbox-item-3"
             class="max-h-56 rounded-md p-2 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5"
           >
+            <li>
+              <BaseInput
+                id="search-option"
+                class="bg-gray-200"
+                v-model="search"
+                ref="search"
+                @keydown.esc="close"
+                @keydown.up="highlightPrev"
+                @keydown.down="highlightNext"
+                @keydown.enter.prevent="selectHighlighted"
+                @keydown.tab.prevent
+              >
+              </BaseInput>
+            </li>
             <li
-              v-for="(item, idx) in items"
+              v-for="(item, idx) in filteredOptions"
               :key="item"
               @click="handleSelect(item)"
               :id="`listbox-item${idx}`"
               role="option"
               class="cursor-pointer rounded select-none relative py-2 pl-3 pr-9 hover:bg-blue-500 hover:text-white"
-              :class="[{ 'text-gray-900 ': item === !modelValue }]"
+              :class="[
+                { 'text-gray-900 ': item === !modelValue },
+                { 'bg-blue-500 text-white': idx === highlightedIndex },
+              ]"
             >
               <div class="flex items-center space-x-3">
                 <span
@@ -92,6 +110,9 @@
                 </svg>
               </span>
             </li>
+            <div v-show="filteredOptions.length === 0" class="mt-2">
+              No results found for "{{ search }}"
+            </div>
           </ul>
         </div>
       </div>
@@ -123,11 +144,16 @@ export default {
   data() {
     return {
       isOpen: false,
+      search: '',
+      highlightedIndex: 0,
     };
   },
   computed: {
     labelID() {
       return 'listbox-' + this.label.toLowerCase().split(' ').join('-');
+    },
+    filteredOptions() {
+      return this.applySearchFilter(this.search, this.items);
     },
   },
   methods: {
@@ -136,6 +162,10 @@ export default {
         return;
       }
       this.isOpen = true;
+      this.$nextTick(() => {
+        this.$refs.search.focusInput();
+        this.scrollToHighlighted();
+      });
     },
     close() {
       if (!this.isOpen) {
@@ -146,7 +176,41 @@ export default {
     },
     handleSelect(item) {
       this.$emit('update:modelValue', item);
-      this.isOpen = false;
+      this.search = '';
+      this.highlightedIndex = this.items.findIndex((el) => el === item);
+      this.close();
+    },
+    applySearchFilter(search, items) {
+      return items.filter((item) =>
+        item.toLowerCase().startsWith(search.toLowerCase())
+      );
+    },
+    selectHighlighted() {
+      this.handleSelect(this.filteredOptions[this.highlightedIndex]);
+    },
+    scrollToHighlighted() {
+      this.$refs.options.children[this.highlightedIndex].scrollIntoView({
+        block: 'nearest',
+      });
+    },
+    highlight(index) {
+      this.highlightedIndex = index;
+
+      if (this.highlightedIndex < 0) {
+        this.highlightedIndex = this.filteredOptions.length - 1;
+      }
+
+      if (this.highlightedIndex > this.filteredOptions.length - 1) {
+        this.highlightedIndex = 0;
+      }
+
+      this.scrollToHighlighted();
+    },
+    highlightPrev() {
+      this.highlight(this.highlightedIndex - 1);
+    },
+    highlightNext() {
+      this.highlight(this.highlightedIndex + 1);
     },
   },
   created() {},

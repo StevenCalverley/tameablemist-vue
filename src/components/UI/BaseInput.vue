@@ -10,12 +10,13 @@
       >{{ label }}</label
     >
     <div
-      class="mt-1 flex-grow relative rounded-md shadow-sm"
+      class="mt-1 flex-grow relative rounded-md"
       :class="{ 'ml-4': label && inline }"
     >
       <input
         :id="id"
         :type="type"
+        ref="input"
         class="form-input w-full sm:text-sm sm:leading-5"
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
@@ -51,5 +52,10 @@ export default {
     },
   },
   emits: ['update:modelValue'],
-}
+  methods: {
+    focusInput() {
+      this.$refs.input.focus();
+    },
+  },
+};
 </script>

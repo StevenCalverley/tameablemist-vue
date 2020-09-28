@@ -17,7 +17,6 @@ export default {
     };
 
     onMounted(() => {
-      console.log(root.value);
       document.addEventListener('click', listener);
     });
 
