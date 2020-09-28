@@ -49,28 +49,27 @@
           class="absolute mt-1 w-full rounded-md bg-white shadow-lg"
           v-show="isOpen"
         >
+          <div class="p-2">
+            <BaseInput
+              id="search-option"
+              class="bg-gray-200"
+              v-model="search"
+              ref="search"
+              @keydown.esc="close"
+              @keydown.up="highlightPrev"
+              @keydown.down="highlightNext"
+              @keydown.enter.prevent="selectHighlighted"
+              @keydown.tab.prevent
+            />
+          </div>
           <ul
             tabindex="-1"
             role="listbox"
             ref="options"
             :aria-labelledby="labelID"
             aria-activedescendant="listbox-item-3"
-            class="max-h-56 rounded-md p-2 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5"
+            class="max-h-56 rounded-md p-2 text-base leading-6 overflow-auto focus:outline-none sm:text-sm sm:leading-5"
           >
-            <li>
-              <BaseInput
-                id="search-option"
-                class="bg-gray-200"
-                v-model="search"
-                ref="search"
-                @keydown.esc="close"
-                @keydown.up="highlightPrev"
-                @keydown.down="highlightNext"
-                @keydown.enter.prevent="selectHighlighted"
-                @keydown.tab.prevent
-              >
-              </BaseInput>
-            </li>
             <li
               v-for="(item, idx) in filteredOptions"
               :key="item"
