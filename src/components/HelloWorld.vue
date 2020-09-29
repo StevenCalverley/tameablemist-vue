@@ -43,6 +43,11 @@
     <p class="mt-4">Typed Value: <pre class="mt-1 text-sm bg-gray-200 p-2 rounded">{{ textarea }}</pre></p>
   </div>
   <div class="mt-8 w-1/2">
+    <BaseRadio label="Personal" name="type" v-model="radio" />
+    <BaseRadio label="Business" name="type" v-model="radio" />
+    <p class="mt-4">Selected Value: {{ radio }}</p>
+  </div>
+  <div class="mt-8 w-1/2">
     <BaseSelect :options="options" v-model="option" />
     <p class="mt-4">Selected Value: {{ option }}</p>
   </div>
@@ -64,6 +69,7 @@ export default {
       input: '',
       input2: '',
       textarea: '',
+      radio: '',
       option: 'Option 1',
       options: [
         'Option 1',
