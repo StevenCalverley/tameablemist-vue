@@ -38,6 +38,10 @@
     ></BaseInput>
     <p class="mt-4">Typed Value: {{ input2 }}</p>
   </div>
+  <div class="mt-4 w-1/2">
+    <BaseTextarea id="test-textarea-id" v-model="textarea" label="Text Area"></BaseTextarea>
+    <p class="mt-4">Typed Value: <pre class="mt-1 text-sm bg-gray-200 p-2 rounded">{{ textarea }}</pre></p>
+  </div>
   <div class="mt-8 w-1/2">
     <BaseSelect :options="options" v-model="option" />
     <p class="mt-4">Selected Value: {{ option }}</p>
@@ -59,6 +63,7 @@ export default {
       count: 0,
       input: '',
       input2: '',
+      textarea: '',
       option: 'Option 1',
       options: [
         'Option 1',
