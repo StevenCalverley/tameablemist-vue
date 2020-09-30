@@ -3,6 +3,7 @@ import router from './router/index';
 import BaseButton from './components/UI/BaseButton.vue';
 import BaseInput from './components/UI/BaseInput.vue';
 import BaseRadio from './components/UI/BaseRadio.vue';
+import BaseCheckbox from './components/UI/BaseCheckbox.vue';
 import BaseTextarea from './components/UI/BaseTextarea.vue';
 import BaseSelect from './components/UI/BaseSelect.vue';
 import BaseSelectMenu from './components/UI/BaseSelectMenu.vue';
@@ -14,6 +15,7 @@ createApp(App)
   .component('BaseButton', BaseButton)
   .component('BaseInput', BaseInput)
   .component('BaseRadio', BaseRadio)
+  .component('BaseCheckbox', BaseCheckbox)
   .component('BaseTextarea', BaseTextarea)
   .component('BaseSelect', BaseSelect)
   .component('BaseSelectMenu', BaseSelectMenu)

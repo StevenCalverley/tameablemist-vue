@@ -54,6 +54,12 @@
     <p class="mt-4">Selected Value: {{ radio }}</p>
   </div>
   <div class="mt-8 md:w-1/2">
+    <BaseCheckbox value="Did you do this?" v-model="checkbox" />
+    <BaseCheckbox value="A second value" v-model="checkbox" />
+    <BaseCheckbox value="A third value" v-model="checkbox" />
+    <p class="mt-4">Selected Value: {{ checkbox }}</p>
+  </div>
+  <div class="mt-8 md:w-1/2">
     <BaseSelect :options="options" v-model="option" />
     <p class="mt-4">Selected Value: {{ option }}</p>
   </div>
@@ -75,6 +81,7 @@ export default {
       input2: '',
       textarea: '',
       radio: '',
+      checkbox: [],
       option: 'Option 1',
       options: [
         'Option 1',
