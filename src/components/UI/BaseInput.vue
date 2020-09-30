@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+
 export default {
   inheritAttrs: false,
   props: {
@@ -52,10 +54,16 @@ export default {
     },
   },
   emits: ['update:modelValue'],
-  methods: {
-    focusInput() {
-      this.$refs.input.focus();
-    },
+  setup() {
+    const input = ref();
+    const focusInput = function () {
+      input.value.focus();
+    };
+
+    return {
+      input,
+      focusInput,
+    };
   },
 };
 </script>
