@@ -45,10 +45,10 @@
   <div class="mt-8 md:w-1/2">
     <div class="flex flex-row">
       <div>
-        <BaseRadio label="Personal" name="type" v-model="radio" />
+        <BaseRadio id="personal" label="Personal" name="type" v-model="radio" />
       </div>
       <div class="ml-4">
-        <BaseRadio label="Business" name="type" v-model="radio" />
+        <BaseRadio id="business" label="Business" name="type" v-model="radio" />
       </div>
     </div>
     <p class="mt-4">Selected Value: {{ radio }}</p>

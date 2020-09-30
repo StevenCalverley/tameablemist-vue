@@ -15,7 +15,20 @@
 <script>
 export default {
   inheritAttrs: false,
-  props: ['id', 'label', 'modelValue'],
+  props: {
+    id: {
+      type: String,
+      required: true,
+    },
+    label: {
+      type: String,
+      required: true,
+    },
+    modelValue: {
+      type: String,
+      required: true,
+    },
+  },
   emits: ['update:modelValue'],
 };
 </script>

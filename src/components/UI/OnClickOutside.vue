@@ -5,7 +5,12 @@
 <script>
 import { ref, onBeforeUnmount, onMounted } from 'vue';
 export default {
-  props: ['do'],
+  props: {
+    do: {
+      type: Function,
+      required: true,
+    },
+  },
   setup(props) {
     const root = ref(null);
 

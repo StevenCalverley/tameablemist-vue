@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import { computed } from 'vue';
+
 export default {
   props: {
     modelValue: {
@@ -35,20 +37,24 @@ export default {
       default: false,
     },
   },
-  computed: {
-    checked() {
+  setup(props, { emit }) {
+    const checked = computed(() => {
       let checked = false;
       if (
-        typeof this.modelValue === 'object' &&
-        this.modelValue instanceof Array
+        typeof props.modelValue === 'object' &&
+        props.modelValue instanceof Array
       ) {
-        checked = this.modelValue.indexOf(this.value) > -1;
-      } else if (typeof this.modelValue === 'boolean') {
-        checked = this.modelValue;
+        checked = props.modelValue.indexOf(props.value) > -1;
+      } else if (typeof props.modelValue === 'boolean') {
+        checked = props.modelValue;
       }
 
       return checked;
-    },
+    });
+
+    return {
+      checked,
+    };
   },
   methods: {
     updateInput(event) {

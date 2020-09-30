@@ -1,5 +1,6 @@
 <template>
   <label
+    v-if="label"
     class="flex-shrink-0 block text-sm leading-5 font-medium text-gray-700"
     >{{ label }}</label
   >
@@ -15,7 +16,20 @@
 
 <script>
 export default {
-  props: ['modelValue', 'id', 'label'],
+  props: {
+    modelValue: {
+      type: String,
+      required: true,
+    },
+    id: {
+      type: String,
+      required: true,
+    },
+    label: {
+      type: String,
+      default: '',
+    },
+  },
   emits: ['update:modelValue'],
 };
 </script>
