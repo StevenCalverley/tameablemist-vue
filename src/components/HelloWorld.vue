@@ -1,6 +1,6 @@
 <template>
   <h1 class="font-sans text-lg">{{ msg }}</h1>
-  <div class="w-1/2 flex space-x-16">
+  <div class="md:w-1/2 flex space-x-4 lg:space-x-16">
     <BaseButton @click="count++">count is: {{ count }}</BaseButton>
     <BaseButton class="flex justify-center items-center space-x-4">
       <svg
@@ -21,7 +21,7 @@
     </BaseButton>
   </div>
   <hr class="my-8" />
-  <div class="mt-4 w-1/2">
+  <div class="mt-4 md:w-1/2">
     <BaseInput
       id="test-input-id"
       v-model="input"
@@ -30,7 +30,7 @@
     ></BaseInput>
     <p class="mt-4">Typed Value: {{ input }}</p>
   </div>
-  <div class="mt-4 w-1/2">
+  <div class="mt-4 md:w-1/2">
     <BaseInput
       id="test-input-id-2"
       v-model="input2"
@@ -38,23 +38,28 @@
     ></BaseInput>
     <p class="mt-4">Typed Value: {{ input2 }}</p>
   </div>
-  <div class="mt-4 w-1/2">
+  <div class="mt-4 md:w-1/2">
     <BaseTextarea id="test-textarea-id" v-model="textarea" label="Text Area"></BaseTextarea>
     <p class="mt-4">Typed Value: <pre class="mt-1 text-sm bg-gray-200 p-2 rounded">{{ textarea }}</pre></p>
   </div>
-  <div class="mt-8 w-1/2">
-    <BaseRadio label="Personal" name="type" v-model="radio" />
-    <BaseRadio label="Business" name="type" v-model="radio" />
+  <div class="mt-8 md:w-1/2">
+    <div class="flex flex-row">
+      <div>
+        <BaseRadio label="Personal" name="type" v-model="radio" />
+      </div>
+      <div class="ml-4">
+        <BaseRadio label="Business" name="type" v-model="radio" />
+      </div>
+    </div>
     <p class="mt-4">Selected Value: {{ radio }}</p>
   </div>
-  <div class="mt-8 w-1/2">
+  <div class="mt-8 md:w-1/2">
     <BaseSelect :options="options" v-model="option" />
     <p class="mt-4">Selected Value: {{ option }}</p>
   </div>
-  <div class="mt-8 w-1/2">
+  <div class="mt-8 md:w-1/2">
     <BaseSelectMenu :items="options" v-model="selected" label="Test Label" />
-    <p class="mt-4">Selected Value: {{ selected }}</p>
-  </div>
+   </div>
 </template>
 
 <script>
