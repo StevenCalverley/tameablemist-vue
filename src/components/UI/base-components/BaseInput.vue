@@ -13,13 +13,13 @@
     </label>
     <div
       class="mt-1 flex-grow relative rounded-md"
-      :class="{ 'ml-4': label && inline }"
+      :class="{ 'ml-4': label && !inline }"
     >
       <input
         :id="id"
         :type="type"
         ref="input"
-        class="form-input w-full sm:text-sm sm:leading-5"
+        class="form-input w-full sm:text-sm sm:leading-5 placeholder-gray-500"
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
         v-bind="$attrs"

@@ -12,14 +12,16 @@
     >
     <div
       class="mt-1 flex-grow relative rounded-md"
-      :class="{ 'ml-4': label && inline }"
+      :class="{ 'ml-4': label && !inline }"
     >
       <select
         :id="id"
         class="form-select w-full h-full sm:text-sm sm:leading-5"
+        :class="{ 'text-gray-500': modelValue === '' }"
         @change="$emit('update:modelValue', $event.target.value)"
         v-bind="$attrs"
       >
+        <option v-if="modelValue === ''" disabled selected>Select...</option>
         <option
           v-for="option in options"
           :key="option"
