@@ -10,12 +10,12 @@
       </label>
       <div class="relative">
         <span class="inline-block w-full rounded-md shadow-sm">
-          <button
-            type="button"
+          <BaseButton
+            type="select"
             aria-haspopup="listbox"
             :aria-expanded="isOpen"
             :aria-labelledby="labelID"
-            class="cursor-pointer relative w-full rounded-md border border-gray-300 bg-white pl-3 pr-10 py-2 text-left focus:outline-none focus:shadow-outline focus:border-blue-300 transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+            class="cursor-pointer relative border-gray-300 bg-white pl-3 pr-10 text-left sm:text-sm sm:leading-5"
             @click="open"
             ref="button"
           >
@@ -42,7 +42,7 @@
                 />
               </svg>
             </span>
-          </button>
+          </BaseButton>
         </span>
 
         <div
@@ -54,7 +54,7 @@
               id="search-option"
               class="bg-gray-200"
               v-model="search"
-              ref="search"
+              ref="searchInput"
               @keydown.esc="close"
               @keydown.up="highlightPrev"
               @keydown.down="highlightNext"
@@ -120,6 +120,8 @@
 </template>
 
 <script>
+import { ref, toRefs, computed, nextTick } from 'vue';
+import useSearchFilter from '../../hooks/searchFilter';
 import OnClickOutside from './OnClickOutside.vue';
 
 export default {
@@ -140,78 +142,95 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      isOpen: false,
-      search: '',
-      highlightedIndex: 0,
+  setup(props, { emit }) {
+    const { label, items, modelValue } = toRefs(props);
+
+    // Template Refs
+    const searchInput = ref(null);
+    const button = ref(null);
+    const options = ref(null);
+
+    const labelID = computed(() => {
+      return 'listbox-' + label.value.toLowerCase().split(' ').join('-');
+    });
+
+    const { search, filteredOptions } = useSearchFilter(items);
+
+    const isOpen = ref(false);
+    const open = async () => {
+      if (isOpen.value) {
+        return;
+      }
+      isOpen.value = true;
+      await nextTick();
+      searchInput.value.focusInput();
+      scrollToHighlighted();
     };
-  },
-  computed: {
-    labelID() {
-      return 'listbox-' + this.label.toLowerCase().split(' ').join('-');
-    },
-    filteredOptions() {
-      return this.applySearchFilter(this.search, this.items);
-    },
-  },
-  methods: {
-    open() {
-      if (this.isOpen) {
+
+    const close = () => {
+      if (!isOpen.value) {
         return;
       }
-      this.isOpen = true;
-      this.$nextTick(() => {
-        this.$refs.search.focusInput();
-        this.scrollToHighlighted();
-      });
-    },
-    close() {
-      if (!this.isOpen) {
-        return;
-      }
-      this.isOpen = false;
-      this.$refs.button.focus();
-    },
-    handleSelect(item) {
-      this.$emit('update:modelValue', item);
-      this.search = '';
-      this.highlightedIndex = this.items.findIndex((el) => el === item);
-      this.close();
-    },
-    applySearchFilter(search, items) {
-      return items.filter((item) =>
-        item.toLowerCase().startsWith(search.toLowerCase())
-      );
-    },
-    selectHighlighted() {
-      this.handleSelect(this.filteredOptions[this.highlightedIndex]);
-    },
-    scrollToHighlighted() {
-      this.$refs.options.children[this.highlightedIndex].scrollIntoView({
+      isOpen.value = false;
+      button.value.focusButton();
+    };
+
+    const highlightedIndex = ref(0);
+    const handleSelect = (item) => {
+      emit('update:modelValue', item);
+      search.value = '';
+      highlightedIndex.value = items.value.findIndex((el) => el === item);
+      close();
+    };
+
+    const selectHighlighted = () => {
+      handleSelect(filteredOptions.value[highlightedIndex.value]);
+    };
+
+    const scrollToHighlighted = () => {
+      options.value.children[highlightedIndex.value].scrollIntoView({
         block: 'nearest',
       });
-    },
-    highlight(index) {
-      this.highlightedIndex = index;
+    };
 
-      if (this.highlightedIndex < 0) {
-        this.highlightedIndex = this.filteredOptions.length - 1;
+    const highlight = (index) => {
+      highlightedIndex.value = index;
+
+      if (highlightedIndex.value < 0) {
+        highlightedIndex.value = filteredOptions.value.length - 1;
       }
 
-      if (this.highlightedIndex > this.filteredOptions.length - 1) {
-        this.highlightedIndex = 0;
+      if (highlightedIndex.value > filteredOptions.value.length - 1) {
+        highlightedIndex.value = 0;
       }
 
-      this.scrollToHighlighted();
-    },
-    highlightPrev() {
-      this.highlight(this.highlightedIndex - 1);
-    },
-    highlightNext() {
-      this.highlight(this.highlightedIndex + 1);
-    },
+      scrollToHighlighted();
+    };
+
+    const highlightPrev = () => {
+      highlight(highlightedIndex.value - 1);
+    };
+
+    const highlightNext = () => {
+      highlight(highlightedIndex.value + 1);
+    };
+
+    return {
+      isOpen,
+      search,
+      searchInput,
+      button,
+      labelID,
+      highlightedIndex,
+      filteredOptions,
+      options,
+      selectHighlighted,
+      open,
+      close,
+      handleSelect,
+      highlightPrev,
+      highlightNext,
+    };
   },
-  created() {},
 };
 </script>

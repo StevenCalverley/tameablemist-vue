@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import useFocus from '../../hooks/focus';
 
 export default {
   inheritAttrs: false,
@@ -55,10 +55,7 @@ export default {
   },
   emits: ['update:modelValue'],
   setup() {
-    const input = ref();
-    const focusInput = function () {
-      input.value.focus();
-    };
+    const { element: input, focusElement: focusInput } = useFocus();
 
     return {
       input,

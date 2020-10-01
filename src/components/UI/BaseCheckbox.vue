@@ -52,30 +52,30 @@ export default {
       return checked;
     });
 
-    return {
-      checked,
-    };
-  },
-  methods: {
-    updateInput(event) {
+    const updateInput = (event) => {
       const isChecked = event.target.checked;
 
-      if (this.modelValue instanceof Array) {
-        const newValue = [...this.modelValue];
+      if (props.modelValue instanceof Array) {
+        const newValue = [...props.modelValue];
 
         if (isChecked) {
           newValue.push(event.target.value);
         } else {
           newValue.splice(newValue.indexOf(event.target.value), 1);
         }
-        this.$emit('update:modelValue', newValue);
+        emit('update:modelValue', newValue);
       } else {
-        this.$emit(
+        emit(
           'update:modelValue',
-          isChecked ? this.trueValue : this.falseValue
+          isChecked ? props.trueValue : props.falseValue
         );
       }
-    },
+    };
+
+    return {
+      checked,
+      updateInput,
+    };
   },
 };
 </script>
