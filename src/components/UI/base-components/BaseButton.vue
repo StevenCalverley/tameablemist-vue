@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import useFocus from '../../hooks/focus';
+import useFocus from '../../../hooks/focus';
 
 export default {
   props: {

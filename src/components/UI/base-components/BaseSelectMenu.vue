@@ -121,7 +121,7 @@
 
 <script>
 import { ref, toRefs, computed, nextTick } from 'vue';
-import useSearchFilter from '../../hooks/searchFilter';
+import useSearchFilter from '../../../hooks/searchFilter';
 import OnClickOutside from './OnClickOutside.vue';
 
 export default {
