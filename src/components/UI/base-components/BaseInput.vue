@@ -7,8 +7,10 @@
       v-if="label"
       :for="id"
       class="flex-shrink-0 block text-sm leading-5 font-medium text-gray-700"
-      >{{ label }}</label
+      :class="{ 'w-1/4': inline }"
     >
+      {{ label }}
+    </label>
     <div
       class="mt-1 flex-grow relative rounded-md"
       :class="{ 'ml-4': label && inline }"

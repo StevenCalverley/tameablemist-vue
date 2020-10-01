@@ -60,7 +60,7 @@
     <p class="mt-4">Selected Value: {{ checkbox }}</p>
   </div>
   <div class="mt-8 md:w-1/2">
-    <BaseSelect :options="options" v-model="option" />
+    <BaseSelect id="select-example" :options="options" v-model="option" />
     <p class="mt-4">Selected Value: {{ option }}</p>
   </div>
   <div class="mt-8 md:w-1/2">
