@@ -24,14 +24,13 @@
       <p class="block text-sm leading-5 font-medium text-gray-700 w-1/4">
         Sex:
       </p>
-      <div>
+      <div class="space-x-2">
         <BaseRadio id="sex-male" label="Male" name="sex" v-model="form.sex" />
         <BaseRadio
           id="sex-female"
           label="Female"
           name="sex"
           v-model="form.sex"
-          class="ml-4"
         />
       </div>
     </div>
@@ -39,7 +38,7 @@
       <p class="block text-sm leading-5 font-medium text-gray-700 w-1/4">
         Hobbies:
       </p>
-      <div class="flex space-x-4">
+      <div class="flex flex-row space-x-2">
         <BaseCheckbox
           v-for="hobby in hobbies"
           :key="hobby"
@@ -48,11 +47,11 @@
         />
       </div>
     </div>
-    <div class="mt-4 w-48 ml-auto">
+    <div class="mt-8 w-48 ml-auto">
       <BaseButton />
     </div>
   </form>
-  <div class="mt-8 bg-gray-200 p-4 rounded-lg">
+  <div class="mt-16 bg-gray-200 p-4 rounded-lg">
     <h3 class="font-semibold">Form Data</h3>
     <pre class="mt-4">{{ form }}</pre>
   </div>
