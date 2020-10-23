@@ -1,16 +1,21 @@
 <template>
   <h1 class="text-2xl font-medium">Form Development</h1>
-  <form @submit.prevent="handleSubmit" class="bg-gray-200 rounded p-8 w-1/2">
+  <form @submit.prevent="handleSubmit" class="bg-gray-200 rounded p-8">
     <h2 class="font-semibold">Complete the below form</h2>
-    <div class="mt-4">
+    <BaseInputGroup
+      class="mt-4"
+      input-id="name"
+      label="Full Name"
+      :state="!hasError"
+      invalid-feedback="Must be at least 8 characters."
+      inline
+    >
       <BaseInput
         id="name"
         v-model="form.name"
-        label="Name"
-        placeholder="Enter name"
-        inline
+        :state="!hasError"
       />
-    </div>
+    </BaseInputGroup>
     <div class="mt-4">
       <BaseSelect
         id="type"
@@ -58,12 +63,13 @@
 </template>
 
 <script>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
 export default {
   setup() {
     const options = ['Test 1', 'Test 2', 'Test 3', 'Test 4'];
     const hobbies = ['Football', 'Tennis', 'Chess'];
+    const hasError = ref(false);
     const form = reactive({
       name: '',
       type: '',
@@ -72,6 +78,9 @@ export default {
     });
 
     const handleSubmit = () => {
+      if (form.name.length < 8) {
+        hasError.value = true;
+      }
       console.log('Submitted!', form);
     };
 
@@ -80,6 +89,7 @@ export default {
       hobbies,
       handleSubmit,
       form,
+      hasError
     };
   },
 };

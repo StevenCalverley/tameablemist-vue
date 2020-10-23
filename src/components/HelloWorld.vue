@@ -25,9 +25,10 @@
     <BaseInput
       id="test-input-id"
       v-model="input"
-      label="Test Label"
-      inline
+      placeholder="Name"
+      :state="input !== '' && input.length < 8 ? false : null"
     ></BaseInput>
+    <p class="mt-1 text-gray-600 text-xs">Please enter your name.</p>
     <p class="mt-4">Typed Value: {{ input }}</p>
   </div>
   <div class="mt-4 md:w-1/2">

@@ -1,18 +1,17 @@
 <template>
   <div
-    class="w-full inline-flex"
+    class="w-full md:inline-flex"
     :class="[{ 'flex-col': !inline }, { 'items-center': inline }]"
   >
     <label
       v-if="label"
       :for="id"
       class="flex-shrink-0 block text-sm leading-5 font-medium text-gray-700"
-      :class="{ 'w-1/4': inline }"
+      :class="{ 'md:w-1/4': inline }"
       >{{ label }}</label
     >
     <div
       class="mt-1 flex-grow relative rounded-md"
-      :class="{ 'ml-4': label && !inline }"
     >
       <select
         :id="id"

@@ -1,5 +1,6 @@
 import BaseButton from './base-components/BaseButton.vue';
 import BaseInput from './base-components/BaseInput.vue';
+import BaseInputGroup from './base-components/BaseInputGroup.vue';
 import BaseRadio from './base-components/BaseRadio.vue';
 import BaseCheckbox from './base-components/BaseCheckbox.vue';
 import BaseTextarea from './base-components/BaseTextarea.vue';
@@ -9,6 +10,7 @@ import BaseSelectMenu from './base-components/BaseSelectMenu.vue';
 export const registerComponents = (app) => {
   app.component('BaseButton', BaseButton);
   app.component('BaseInput', BaseInput);
+  app.component('BaseInputGroup', BaseInputGroup);
   app.component('BaseRadio', BaseRadio);
   app.component('BaseCheckbox', BaseCheckbox);
   app.component('BaseTextarea', BaseTextarea);
