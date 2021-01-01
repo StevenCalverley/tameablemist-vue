@@ -1,13 +1,11 @@
 <template>
   <h1 class="text-2xl font-medium">Form Development</h1>
-  <form @submit.prevent="handleSubmit" class="bg-gray-200 rounded p-8">
+  <form @submit.prevent="handleSubmit" class="bg-white rounded p-8">
     <h2 class="font-semibold">Complete the below form</h2>
     <BaseInputGroup
-      class="mt-4"
       input-id="name"
       label="Full Name"
       :state="!hasError"
-      invalid-feedback="Must be at least 8 characters."
       inline
     >
       <BaseInput
@@ -15,22 +13,35 @@
         v-model="form.name"
         :state="!hasError"
       />
+      <BaseInvalidFeedback
+        v-if="invalidFeedbackDescription !== ''"
+      >{{ invalidFeedbackDescription }}</BaseInvalidFeedback>
     </BaseInputGroup>
-    <div class="mt-4">
+    <BaseInputGroup
+      label="Type"
+      input-id="type"
+      inline
+    >
       <BaseSelect
         id="type"
-        label="Type"
         v-model="form.type"
         :options="options"
         inline
       />
-    </div>
-    <div class="mt-4 inline-flex w-full">
-      <p class="block text-sm leading-5 font-medium text-gray-700 w-1/4">
-        Sex:
-      </p>
-      <div class="space-x-2">
-        <BaseRadio id="sex-male" label="Male" name="sex" v-model="form.sex" />
+    </BaseInputGroup>
+    <BaseInputGroup
+      class="mt-8"
+      input-id="sex"
+      label="Sex"
+      inline
+    >
+      <div class="space-x-4">
+        <BaseRadio
+          id="sex-male"
+          label="Male"
+          name="sex"
+          v-model="form.sex"
+        />
         <BaseRadio
           id="sex-female"
           label="Female"
@@ -38,12 +49,14 @@
           v-model="form.sex"
         />
       </div>
-    </div>
-    <div class="mt-4 flex">
-      <p class="block text-sm leading-5 font-medium text-gray-700 w-1/4">
-        Hobbies:
-      </p>
-      <div class="flex flex-row space-x-2">
+    </BaseInputGroup>
+    <BaseInputGroup
+      class="mt-8"
+      label='Hobbies'
+      input-id="hobbies"
+      inline
+    >
+      <div class="flex flex-row space-x-6">
         <BaseCheckbox
           v-for="hobby in hobbies"
           :key="hobby"
@@ -51,8 +64,8 @@
           v-model="form.hobbies"
         />
       </div>
-    </div>
-    <div class="mt-8 w-48 ml-auto">
+    </BaseInputGroup>
+    <div class="mt-8">
       <BaseButton />
     </div>
   </form>
@@ -63,13 +76,14 @@
 </template>
 
 <script>
-import { reactive, ref } from 'vue';
+import { reactive, ref, watchEffect } from 'vue';
 
 export default {
   setup() {
     const options = ['Test 1', 'Test 2', 'Test 3', 'Test 4'];
     const hobbies = ['Football', 'Tennis', 'Chess'];
     const hasError = ref(false);
+    const invalidFeedbackDescription = ref('');
     const form = reactive({
       name: '',
       type: '',
@@ -77,10 +91,17 @@ export default {
       hobbies: [],
     });
 
-    const handleSubmit = () => {
-      if (form.name.length < 8) {
+    watchEffect(() => {
+      if ( form.name !== '' && form.name.length < 8 ) {
         hasError.value = true;
+        invalidFeedbackDescription.value = 'Must be at least 8 characters!'
+      } else {
+        hasError.value = false;
+        invalidFeedbackDescription.value = ''
       }
+    })
+
+    const handleSubmit = () => {
       console.log('Submitted!', form);
     };
 
@@ -89,7 +110,8 @@ export default {
       hobbies,
       handleSubmit,
       form,
-      hasError
+      hasError,
+      invalidFeedbackDescription
     };
   },
 };
